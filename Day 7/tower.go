@@ -126,7 +126,7 @@ func buildTower(filepath string) map[string]*program {
 	// Calculate total weights
 	for _, n := range in {
 		// For every node
-		// Get the node's parent, add the weight of the node to the parent, then the parent become the node, repeat with the new node
+		// Get the node's parent, add the weight of the node to the parent, then the parent becomes the node, repeat with the new node
 		// Do this for every node and all weights will be added
 		for k := n.parent; k != nil; k = k.parent {
 			k.totalWeight += n.weight
