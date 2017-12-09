@@ -46,22 +46,29 @@ func solvePart1(programs map[string]*program) (*program, error) {
 func solvePart2(in map[string]*program) int {
 	var fixedWeight int
 	// Start at root get weights of each child
+	// If the node has less than 3 children then we have reached the endpoint.
+	// The 2 children cannot be unbalanced as the problem states exactly 1 node has the wrong weight.
+	// If 1 child of 2 is wrong the other may be wrong too either could be higher or lower to balance
 	for n, _ := solvePart1(in); n != nil && len(n.children) > 2; {
 		w := n.children[0].totalWeight
 		w2 := n.children[1].totalWeight
-		// Check weights of children and balance if needed
+		// If child 3 is the same as child 2 then we know that the weight (w2) is correct so we make w = w2
+		// If the weight of child 3 is not the same as the weight of child 2 then 1 of child 2 or 3 is wrong so we know the weight of child 1 (w) is correct
 		if n.children[2].totalWeight == w2 {
 			w = w2
 		}
 		var next *program
-		// Balance all children
+		// Loop through all children of the node
 		for _, n := range n.children {
-			// If a subtree isn't balanced use it as the next to balance
+			// If the weight of the child is NOT the correct determined weight
 			if n.totalWeight != w {
+				// We know this node is wrong so we continue deeper in the tower to fix it
 				next = n
+				// Calculate the weight of the wrong child by the difference between it's current total weight and the correct total weight
 				fixedWeight = n.weight - (n.totalWeight - w)
 			}
 		}
+		// If no total weights were wrong in this layer then next == nil, so next = n == nil and the loop ends because n != nil computes false
 		n = next
 	}
 	return fixedWeight
@@ -118,6 +125,9 @@ func buildTower(filepath string) map[string]*program {
 
 	// Calculate total weights
 	for _, n := range in {
+		// For every node
+		// Get the node's parent, add the weight of the node to the parent, then the parent become the node, repeat with the new node
+		// Do this for every node and all weights will be added
 		for k := n.parent; k != nil; k = k.parent {
 			k.totalWeight += n.weight
 		}
