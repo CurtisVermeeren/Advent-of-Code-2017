@@ -17,12 +17,14 @@ func main() {
 func processGridRow(row []bool, lengths string) int {
 	binaryString := knotHash(lengths)
 	count := 0
+	// Check for used squares in the row
 	for charNum, char := range binaryString {
 		if string(char) == "1" {
 			row[charNum] = true
 			count++
 		}
 	}
+	// Return the total number of used squares
 	return count
 }
 
@@ -116,7 +118,9 @@ func countRegions(grid [][]bool) int {
 	for i, row := range grid {
 		for j, used := range row {
 			if used {
+				// Visit the square and check adjacent squares
 				visit(i, j, grid)
+				// Increment the total number of regions
 				count++
 			}
 		}
@@ -125,10 +129,13 @@ func countRegions(grid [][]bool) int {
 }
 
 func visit(i, j int, grid [][]bool) {
+	// If the square is out of bounds or NOT used we can return
 	if i < 0 || i >= len(grid) || j < 0 || j >= len(grid[i]) || !grid[i][j] {
 		return
 	}
+	// Ensure it is not used again for this group or another
 	grid[i][j] = false
+	// Check the adjacent squares
 	visit(i+1, j, grid)
 	visit(i-1, j, grid)
 	visit(i, j+1, grid)
