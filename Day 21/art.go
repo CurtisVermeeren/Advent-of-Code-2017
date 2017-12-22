@@ -81,7 +81,6 @@ func next(rulebook map[string][][]bool, in []pattern) (out []pattern) {
 			p4[1] = pat[3][2:]
 			p4 = rulebook[encode(p4)]
 
-			// 9 2x2 have a 6x6 output
 			combined := make([][]bool, 6)
 			for i := 0; i < 3; i++ {
 				combined[i] = p1[i]
