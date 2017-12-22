@@ -21,7 +21,7 @@ func main() {
 	rulebook := buildRulebook(lines)
 
 	// Use a 3D slice, to make a slice of patterns
-	art := [][][]bool{{{false, true, false}, {false, false, true}, {true, true, true}}}
+	art := []pattern{{{false, true, false}, {false, false, true}, {true, true, true}}}
 
 	// Perform 5 iterations of the art generation
 	for i := 0; i < 5; i++ {
@@ -40,7 +40,7 @@ func main() {
 }
 
 // Function counts the number of true values in the art. Returns that value
-func count(art [][][]bool) int {
+func count(art []pattern) int {
 	count := 0
 	// Iterate through each value and check if true
 	for _, p := range art {
@@ -55,7 +55,7 @@ func count(art [][][]bool) int {
 	return count
 }
 
-func next(rulebook map[string][][]bool, in [][][]bool) (out [][][]bool) {
+func next(rulebook map[string][][]bool, in []pattern) (out []pattern) {
 	for _, pat := range in {
 		// If the length of a pattern is 4 (4x4) divide it into 4 parts of 2 (2x2)
 		if len(pat) == 4 {
@@ -81,7 +81,7 @@ func next(rulebook map[string][][]bool, in [][][]bool) (out [][][]bool) {
 			p4[1] = pat[3][2:]
 			p4 = rulebook[encode(p4)]
 
-			// 4 2x2 have a 6x6 output
+			// 9 2x2 have a 6x6 output
 			combined := make([][]bool, 6)
 			for i := 0; i < 3; i++ {
 				combined[i] = p1[i]
