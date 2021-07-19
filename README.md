@@ -1,4 +1,4 @@
 # Advent Of Code 2017
-Code for daily Advent of Code challenges
+This project contains code for daily Advent of Code challenge solutions written in Go.
 
-The challenge can be found [here.](https://adventofcode.com/2017)
+The challenges can be found [here.](https://adventofcode.com/2017)
